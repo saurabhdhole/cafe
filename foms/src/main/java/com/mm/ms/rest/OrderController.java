@@ -93,7 +93,7 @@ public class OrderController extends BaseAbstractController<Foodorder, Long>{
 	
 	
 	
-	@RequestMapping(value="{status}", method = RequestMethod.GET)
+	@RequestMapping(value="status/{status}", method = RequestMethod.GET)
 	public ResponseEntity<Foodorder> readByStatus(@PathVariable(value="status")String status) {
 		//TODO Comment/Uncomment below line based on your requirement
 		ResponseEntity<Foodorder> orderResponse;

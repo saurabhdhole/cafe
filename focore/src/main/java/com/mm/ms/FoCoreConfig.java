@@ -13,57 +13,46 @@ import com.mm.ms.util.RespMsgUtil;
 
 @Configuration
 public class FoCoreConfig {
-	
-	
-	
-	
+
 	@Bean
 	public OrderItemBean orderItemBean() {
-		OrderItemBean orderItemBean = new OrderItemBean();		
+		OrderItemBean orderItemBean = new OrderItemBean();
 		return orderItemBean;
 	}
-	
-	
-	
+
 	@Bean
 	public ReconciliationBean reconciliationBean() {
-		ReconciliationBean reconciliationBean = new ReconciliationBean();		
+		ReconciliationBean reconciliationBean = new ReconciliationBean();
 		return reconciliationBean;
 	}
-	
-	
-	
+
 	@Bean
 	public OrderBean orderBean() {
-		OrderBean orderBean = new OrderBean();		
+		OrderBean orderBean = new OrderBean();
 		return orderBean;
 	}
-	
-	
 
-	
 	@Bean
 	public UserBean userBean() {
-		UserBean userBean = new UserBean();		
+		UserBean userBean = new UserBean();
 		return userBean;
 	}
-			
+
 	@Bean
-	public LogUtil logUtil(){
+	public LogUtil logUtil() {
 		LogUtil logUtil = new LogUtil();
 		return logUtil;
 	}
-	
+
 	@Bean
-	public RespMsgUtil respMsgUtil(){
+	public RespMsgUtil respMsgUtil() {
 		RespMsgUtil respMsgUtil = new RespMsgUtil();
 		return respMsgUtil;
 	}
-	
+
 	@Bean
 	public FoodItemBean foodItemBean() {
-	FoodItemBean foodItemBean = new FoodItemBean();
-	return foodItemBean;
+		FoodItemBean foodItemBean = new FoodItemBean();
+		return foodItemBean;
 	}
 }
-
