@@ -24,6 +24,14 @@ public class OrderBean extends BaseAbstractBean<Foodorder, Long> {
 		return order;
 	}
 
+	
+	public Foodorder readByStatus(String logstr, String status) {
+		logger.debug(logstr + "get order with status " + status);
+		Foodorder order = orderRepository.findByStatus(status);
+		logger.debug(logstr + "got order with status " + order.fetchLogDetails());
+		return order;
+	}
+	
 	@Override
 	public Foodorder read(String logstr, Long id) {
 		logger.debug(logstr + "get order at id " + id);

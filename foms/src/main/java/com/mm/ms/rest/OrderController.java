@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mm.ms.BaseAbstractController;
@@ -88,6 +89,33 @@ public class OrderController extends BaseAbstractController<Foodorder, Long>{
 		return appUserResponse;
 	}
 
+	
+	
+	
+	
+	@RequestMapping(value="{status}", method = RequestMethod.GET)
+	public ResponseEntity<Foodorder> readByStatus(@PathVariable(value="status")String status) {
+		//TODO Comment/Uncomment below line based on your requirement
+		ResponseEntity<Foodorder> orderResponse;
+		HttpHeaders headers = new HttpHeaders();
+		
+		Foodorder foodorder = orderBean.readByStatus(logUtil.getPreStr(LOGSTR_MS, loggedInUser), status);
+		
+		if (null != foodorder){
+			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_200, RETRIEVE_SUCCESS) );
+			orderResponse = new ResponseEntity<Foodorder>(foodorder, headers, HttpStatus.OK);
+		}else{
+			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_404, RETRIEVE_FAILED) );
+			orderResponse = new ResponseEntity<Foodorder>(foodorder, headers, HttpStatus.NOT_FOUND);
+		}
+		
+		return orderResponse;
+	}
+	
+	
+	
+	
+	
 	@Override
 	public ResponseEntity<Iterable<Foodorder>> readAll() {
 		//TODO Comment/Uncomment below line based on your requirement

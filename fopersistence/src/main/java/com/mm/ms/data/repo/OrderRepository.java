@@ -12,4 +12,8 @@ import com.mm.ms.entity.Foodorder;
  */
 public interface OrderRepository extends PagingAndSortingRepository<Foodorder, Long> {
 
+	public Foodorder findByStatus(String status);
+	
+	/*@Query()*/
+	
 }
