@@ -16,6 +16,8 @@ public class OrderBean extends BaseAbstractBean<Foodorder, Long> {
 	@Autowired
 	OrderRepository orderRepository;
 
+	
+	
 	@Override
 	public Foodorder create(String logstr, Foodorder entity) {
 		logger.debug(logstr + "create order " + entity.fetchLogDetails());

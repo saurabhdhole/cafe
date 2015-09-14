@@ -28,17 +28,18 @@ public class OrderItem implements Serializable {
 
 	@Column
 	private Long uid;
-	// END
-
+	
 	@Column
 	private Long item_id;
 
 	@Column
-	private int qty;
+	private Integer qty;
 
 	@Column
-	private long oid;
+	private Long oid;
 
+	//End
+	
 	public OrderItem() {
 
 	}
@@ -90,19 +91,19 @@ public class OrderItem implements Serializable {
 		this.item_id = item_id;
 	}
 
-	public int getQty() {
+	public Integer getQty() {
 		return qty;
 	}
 
-	public void setQty(int qty) {
+	public void setQty(Integer qty) {
 		this.qty = qty;
 	}
 
-	public long getOid() {
+	public Long getOid() {
 		return oid;
 	}
 
-	public void setOid(long oid) {
+	public void setOid(Long oid) {
 		this.oid = oid;
 	}
 

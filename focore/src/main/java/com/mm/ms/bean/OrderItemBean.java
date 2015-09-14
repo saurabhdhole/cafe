@@ -1,5 +1,8 @@
 package com.mm.ms.bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +10,11 @@ import org.springframework.data.domain.Pageable;
 
 import com.mm.ms.BaseAbstractBean;
 import com.mm.ms.data.repo.OrderItemRepository;
+import com.mm.ms.dto.OrderItemDto;
+import com.mm.ms.entity.FoodItem;
 import com.mm.ms.entity.OrderItem;
+
+
 
 public class OrderItemBean extends BaseAbstractBean<OrderItem, Long> {
 
@@ -16,6 +23,12 @@ public class OrderItemBean extends BaseAbstractBean<OrderItem, Long> {
 	@Autowired
 	OrderItemRepository orderItemRepository;
 
+	@Autowired
+	UserBean userBean;
+	
+	@Autowired
+	FoodItemBean foodItemBean;
+	
 	@Override
 	public OrderItem create(String logstr, OrderItem entity) {
 		logger.debug(logstr + "create Order " + entity.fetchLogDetails());
@@ -63,4 +76,27 @@ public class OrderItemBean extends BaseAbstractBean<OrderItem, Long> {
 		return true;
 	}
 
+	public List<OrderItemDto> getOrderDetail(String logstr, Long orderid ) {
+		
+		OrderItemDto orderItemDto;
+		List<OrderItem> orderRecords = orderItemRepository.findByOid(orderid);
+		List<OrderItemDto> orderItems = new ArrayList<OrderItemDto>();
+		Integer qty;
+		FoodItem foodItem;
+		
+		for(OrderItem orderItem:orderRecords)
+		{
+			orderItemDto = new OrderItemDto();
+			orderItemDto.setOrderid(orderid);
+			orderItemDto.setUsername((userBean.read(logstr, orderItem.getUid())).getName());
+			foodItem =foodItemBean.read(logstr, orderItem.getItem_id());
+			orderItemDto.setItemname(foodItem.getName());
+			qty = orderItem.getQty();
+			orderItemDto.setQty(qty);
+			orderItemDto.setPrice(foodItem.getPrice()*qty);
+			orderItems.add(orderItemDto);
+		}
+		return orderItems;
+	}
+	
 }

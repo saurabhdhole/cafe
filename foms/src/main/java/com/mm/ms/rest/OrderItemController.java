@@ -1,5 +1,7 @@
 package com.mm.ms.rest;
 
+import java.util.List;
+
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mm.ms.BaseAbstractController;
 import com.mm.ms.bean.OrderItemBean;
+import com.mm.ms.dto.OrderItemDto;
 import com.mm.ms.entity.OrderItem;
 import com.mm.ms.util.Const;
 import com.mm.ms.util.LogUtil;
@@ -177,4 +181,23 @@ public class OrderItemController extends BaseAbstractController<OrderItem, Long>
 		return appUserResponse;
 	}	
 
+	@RequestMapping(value="orderid/{orderid}", method = RequestMethod.GET)
+	public ResponseEntity<List<OrderItemDto>> readAllOrderItems(@PathVariable(value="orderid")Long orderid) {
+		//TODO Comment/Uncomment below line based on your requirement
+		ResponseEntity<List<OrderItemDto>> appUserResponse;
+		HttpHeaders headers = new HttpHeaders();
+		
+		List<OrderItemDto> appUserRecords = orderItemBean.getOrderDetail(logUtil.getPreStr(LOGSTR_MS, loggedInUser),orderid);
+		
+		if (null != appUserRecords){
+			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_200, RETRIEVE_SUCCESS) );
+			appUserResponse = new ResponseEntity<List<OrderItemDto>>(appUserRecords, headers, HttpStatus.OK);
+		}else{
+			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_404, RETRIEVE_FAILED) );
+			appUserResponse = new ResponseEntity<List<OrderItemDto>>(appUserRecords, headers, HttpStatus.NOT_FOUND);
+		}
+		
+		return appUserResponse;
+	}
+	
 }
