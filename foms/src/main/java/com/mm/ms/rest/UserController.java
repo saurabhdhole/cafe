@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -70,21 +71,27 @@ public class UserController extends BaseAbstractController<User, Long>{
 	}
 
 	@Override
-	public ResponseEntity<User> read(@PathVariable(value="id")Long id) {
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<User> read(@PathVariable(value="id")Long id) throws Exception {
 		//TODO Comment/Uncomment below line based on your requirement
-		ResponseEntity<User> appUserResponse;
+		ResponseEntity<User> appUserResponse = null;
 		HttpHeaders headers = new HttpHeaders();
-		
-		User appUser = userBean.read(logUtil.getPreStr(LOGSTR_MS, loggedInUser), id);
-		
-		if (null != appUser){
-			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_200, RETRIEVE_SUCCESS) );
-			appUserResponse = new ResponseEntity<User>(appUser, headers, HttpStatus.OK);
-		}else{
-			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_404, RETRIEVE_FAILED) );
+		User appUser = null;
+		try {
+			appUser = userBean.read(logUtil.getPreStr(LOGSTR_MS, loggedInUser), id);
+
+			if (null != appUser) {
+				headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_200, RETRIEVE_SUCCESS));
+				appUserResponse = new ResponseEntity<User>(appUser, headers, HttpStatus.OK);
+			} 
+//			else {
+//				headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_404, RETRIEVE_FAILED));
+//				appUserResponse = new ResponseEntity<User>(appUser, headers, HttpStatus.NOT_FOUND);
+//			}
+		} catch (Exception e) {
+			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_404, RETRIEVE_FAILED));
 			appUserResponse = new ResponseEntity<User>(appUser, headers, HttpStatus.NOT_FOUND);
 		}
-		
 		return appUserResponse;
 	}
 

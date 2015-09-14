@@ -25,11 +25,16 @@ public class UserBean extends BaseAbstractBean<User, Long>{
 	}
 
 	@Override
-	public User read(String logstr, Long id) {
-		logger.debug(logstr + "get appUser at id " + id);	
+	public User read(String logstr, Long id) throws Exception {
+		logger.debug(logstr + "get appUser at id " + id);
 		User appUser = userRepository.findOne(id);
-		logger.debug(logstr + "got appUser " + appUser.fetchLogDetails());	
-		return appUser;
+		if (null != appUser) {
+			logger.debug(logstr + "got appUser " + appUser.fetchLogDetails());
+			return appUser;
+		} else {
+			logger.debug(logstr + "failed to retrieve appUser with userid " +id);
+			throw new Exception();
+		}
 	}
 
 	@Override
