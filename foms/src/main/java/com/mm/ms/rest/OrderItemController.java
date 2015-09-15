@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +29,7 @@ import com.mm.ms.util.ResponseMsg;
 
 @RestController
 @RequestMapping("/orderItem")
+
 public class OrderItemController extends BaseAbstractController<OrderItem, Long> {
 	
 	public static final String MS_CODE = "ORDER";
@@ -74,41 +76,43 @@ public class OrderItemController extends BaseAbstractController<OrderItem, Long>
 	}
 
 	@Override
-	public ResponseEntity<OrderItem> read(@PathVariable(value="id")Long id) {
+	public ResponseEntity<OrderItem> read(@PathVariable(value="id")Long id)throws Exception {
 		//TODO Comment/Uncomment below line based on your requirement
-		ResponseEntity<OrderItem> appUserResponse;
+		ResponseEntity<OrderItem> orderItemResponse=null;
 		HttpHeaders headers = new HttpHeaders();
-		
-		OrderItem orderUser = orderItemBean.read(logUtil.getPreStr(LOGSTR_MS, loggedInUser), id);
-		
-		if (null != orderUser){
-			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_200, RETRIEVE_SUCCESS) );
-			appUserResponse = new ResponseEntity<OrderItem>(orderUser, headers, HttpStatus.OK);
-		}else{
+		OrderItem orderitem=null;
+		try
+		{
+			orderitem = orderItemBean.read(logUtil.getPreStr(LOGSTR_MS, loggedInUser), id);
+			if (null != orderitem){
+				headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_200, RETRIEVE_SUCCESS) );
+				orderItemResponse = new ResponseEntity<OrderItem>(orderitem, headers, HttpStatus.OK);
+				}
+		}catch(Exception e){
 			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_404, RETRIEVE_FAILED) );
-			appUserResponse = new ResponseEntity<OrderItem>(orderUser, headers, HttpStatus.NOT_FOUND);
+			orderItemResponse = new ResponseEntity<OrderItem>(orderitem, headers, HttpStatus.NOT_FOUND);
 		}
 		
-		return appUserResponse;
+		return orderItemResponse;
 	}
 
 	@Override
 	public ResponseEntity<Iterable<OrderItem>> readAll() {
 		//TODO Comment/Uncomment below line based on your requirement
-		ResponseEntity<Iterable<OrderItem>> appUserResponse;
+		ResponseEntity<Iterable<OrderItem>> orderItemResponse;
 		HttpHeaders headers = new HttpHeaders();
 		
 		Iterable<OrderItem> appUserRecords = orderItemBean.readAll(logUtil.getPreStr(LOGSTR_MS, loggedInUser));
 		
 		if (null != appUserRecords){
 			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_200, RETRIEVE_SUCCESS) );
-			appUserResponse = new ResponseEntity<Iterable<OrderItem>>(appUserRecords, headers, HttpStatus.OK);
+			orderItemResponse = new ResponseEntity<Iterable<OrderItem>>(appUserRecords, headers, HttpStatus.OK);
 		}else{
 			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_404, RETRIEVE_FAILED) );
-			appUserResponse = new ResponseEntity<Iterable<OrderItem>>(appUserRecords, headers, HttpStatus.NOT_FOUND);
+			orderItemResponse = new ResponseEntity<Iterable<OrderItem>>(appUserRecords, headers, HttpStatus.NOT_FOUND);
 		}
 		
-		return appUserResponse;
+		return orderItemResponse;
 	}
 
 	@Override
@@ -118,7 +122,7 @@ public class OrderItemController extends BaseAbstractController<OrderItem, Long>
 			@PathParam("sortdir") String sortdir,
 			@PathParam("sortfield") String sortfield) {
 		//TODO Comment/Uncomment below line based on your requirement
-		ResponseEntity<Iterable<OrderItem>> appUserResponse;
+		ResponseEntity<Iterable<OrderItem>> orderItemResponse;
 		HttpHeaders headers = new HttpHeaders();
 		
 		// Default sort Direction and Field
@@ -136,68 +140,68 @@ public class OrderItemController extends BaseAbstractController<OrderItem, Long>
 		
 		if (null != appUserRecords){
 			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_200, RETRIEVE_SUCCESS) );
-			appUserResponse = new ResponseEntity<Iterable<OrderItem>>(appUserRecords, headers, HttpStatus.OK);
+			orderItemResponse = new ResponseEntity<Iterable<OrderItem>>(appUserRecords, headers, HttpStatus.OK);
 		}else{
 			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_404, RETRIEVE_FAILED) );
-			appUserResponse = new ResponseEntity<Iterable<OrderItem>>(appUserRecords, headers, HttpStatus.NOT_FOUND);
+			orderItemResponse = new ResponseEntity<Iterable<OrderItem>>(appUserRecords, headers, HttpStatus.NOT_FOUND);
 		}
 		
-		return appUserResponse;
+		return orderItemResponse;
 	}
 
 	@Override
 	public ResponseEntity<OrderItem> update(@RequestBody OrderItem tobemerged) {
-		ResponseEntity<OrderItem> appUserResponse;
+		ResponseEntity<OrderItem> orderItemResponse;
 		HttpHeaders headers = new HttpHeaders();
 		
 		OrderItem orderUser = orderItemBean.update(logUtil.getPreStr(LOGSTR_MS, loggedInUser), tobemerged);
 		
 		if (null != orderUser){
 			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_201, UPDATE_SUCCESS) );
-			appUserResponse = new ResponseEntity<OrderItem>(orderUser, headers, HttpStatus.CREATED);
+			orderItemResponse = new ResponseEntity<OrderItem>(orderUser, headers, HttpStatus.CREATED);
 		} else{
 			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_500, UPDATE_FAILED) );
-			appUserResponse = new ResponseEntity<OrderItem>( tobemerged, headers, HttpStatus.INTERNAL_SERVER_ERROR);
+			orderItemResponse = new ResponseEntity<OrderItem>( tobemerged, headers, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
-		return appUserResponse;
+		return orderItemResponse;
 	}
 
 	@Override
 	public ResponseEntity<OrderItem> delete(@PathVariable(value="id") Long id) {
-		ResponseEntity<OrderItem> appUserResponse;
+		ResponseEntity<OrderItem> orderItemResponse;
 		HttpHeaders headers = new HttpHeaders();
 		
 		Boolean isdeleted = orderItemBean.delete(logUtil.getPreStr(LOGSTR_MS, loggedInUser), id);
 		
 		if (isdeleted){
 			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_200, DELETE_SUCCESS) );
-			appUserResponse = new ResponseEntity<OrderItem>(null, headers, HttpStatus.OK);
+			orderItemResponse = new ResponseEntity<OrderItem>(null, headers, HttpStatus.OK);
 		}else{
 			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_404, DELETE_FAILED) );
-			appUserResponse = new ResponseEntity<OrderItem>(null, headers, HttpStatus.NOT_FOUND);
+			orderItemResponse = new ResponseEntity<OrderItem>(null, headers, HttpStatus.NOT_FOUND);
 		}
 		
-		return appUserResponse;
+		return orderItemResponse;
 	}	
 
 	@RequestMapping(value="orderid/{orderid}", method = RequestMethod.GET)
 	public ResponseEntity<List<OrderItemDto>> readAllOrderItems(@PathVariable(value="orderid")Long orderid) {
 		//TODO Comment/Uncomment below line based on your requirement
-		ResponseEntity<List<OrderItemDto>> appUserResponse;
+		ResponseEntity<List<OrderItemDto>> orderItemResponse;
 		HttpHeaders headers = new HttpHeaders();
 		
 		List<OrderItemDto> appUserRecords = orderItemBean.getOrderDetail(logUtil.getPreStr(LOGSTR_MS, loggedInUser),orderid);
 		
 		if (null != appUserRecords){
 			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_200, RETRIEVE_SUCCESS) );
-			appUserResponse = new ResponseEntity<List<OrderItemDto>>(appUserRecords, headers, HttpStatus.OK);
+			orderItemResponse = new ResponseEntity<List<OrderItemDto>>(appUserRecords, headers, HttpStatus.OK);
 		}else{
 			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_404, RETRIEVE_FAILED) );
-			appUserResponse = new ResponseEntity<List<OrderItemDto>>(appUserRecords, headers, HttpStatus.NOT_FOUND);
+			orderItemResponse = new ResponseEntity<List<OrderItemDto>>(appUserRecords, headers, HttpStatus.NOT_FOUND);
 		}
 		
-		return appUserResponse;
+		return orderItemResponse;
 	}
 	
 }

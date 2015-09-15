@@ -38,11 +38,17 @@ public class OrderItemBean extends BaseAbstractBean<OrderItem, Long> {
 	}
 
 	@Override
-	public OrderItem read(String logstr, Long id) {
+	public OrderItem read(String logstr, Long id) throws Exception {
 		logger.debug(logstr + "get order at id " + id);
 		OrderItem order =orderItemRepository.findOne(id);
-		logger.debug(logstr + "got order " + order.fetchLogDetails());
-		return order;
+		if(null!=order)
+		{
+			logger.debug(logstr + "got order " + order.fetchLogDetails());
+			return order;
+		}else{
+			logger.debug(logstr + "failed to retrieve OrderItem with orderid" + order.fetchLogDetails());
+			throw new Exception();
+		}
 	}
 
 	@Override
@@ -88,7 +94,12 @@ public class OrderItemBean extends BaseAbstractBean<OrderItem, Long> {
 		{
 			orderItemDto = new OrderItemDto();
 			orderItemDto.setOrderid(orderid);
-			orderItemDto.setUsername((userBean.read(logstr, orderItem.getUid())).getName());
+			try {
+				orderItemDto.setUsername((userBean.read(logstr, orderItem.getUid())).getName());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			foodItem =foodItemBean.read(logstr, orderItem.getItem_id());
 			orderItemDto.setItemname(foodItem.getName());
 			qty = orderItem.getQty();
