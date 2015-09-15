@@ -73,26 +73,24 @@ public class OrderController extends BaseAbstractController<Foodorder, Long>{
 	@Override
 	public ResponseEntity<Foodorder> read(@PathVariable(value="id")Long id) {
 		//TODO Comment/Uncomment below line based on your requirement
-		ResponseEntity<Foodorder> appUserResponse;
+		ResponseEntity<Foodorder> orderResponse=null;
 		HttpHeaders headers = new HttpHeaders();
-		
-		Foodorder appUser = orderBean.read(logUtil.getPreStr(LOGSTR_MS, loggedInUser), id);
-		
-		if (null != appUser){
+		Foodorder foodorder=null;
+		try
+		{
+		 foodorder = orderBean.read(logUtil.getPreStr(LOGSTR_MS, loggedInUser), id);
+		if (null != foodorder){
 			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_200, RETRIEVE_SUCCESS) );
-			appUserResponse = new ResponseEntity<Foodorder>(appUser, headers, HttpStatus.OK);
-		}else{
+			orderResponse = new ResponseEntity<Foodorder>(foodorder, headers, HttpStatus.OK);
+		}
+		}catch(Exception e){
 			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_404, RETRIEVE_FAILED) );
-			appUserResponse = new ResponseEntity<Foodorder>(appUser, headers, HttpStatus.NOT_FOUND);
+			orderResponse = new ResponseEntity<Foodorder>(foodorder, headers, HttpStatus.NOT_FOUND);
 		}
 		
-		return appUserResponse;
+		return orderResponse;
 	}
 
-	
-	
-	
-	
 	@RequestMapping(value="status/{status}", method = RequestMethod.GET)
 	public ResponseEntity<Foodorder> readByStatus(@PathVariable(value="status")String status) {
 		//TODO Comment/Uncomment below line based on your requirement
@@ -119,20 +117,20 @@ public class OrderController extends BaseAbstractController<Foodorder, Long>{
 	@Override
 	public ResponseEntity<Iterable<Foodorder>> readAll() {
 		//TODO Comment/Uncomment below line based on your requirement
-		ResponseEntity<Iterable<Foodorder>> appUserResponse;
+		ResponseEntity<Iterable<Foodorder>> orderResponse;
 		HttpHeaders headers = new HttpHeaders();
 		
 		Iterable<Foodorder> appUserRecords = orderBean.readAll(logUtil.getPreStr(LOGSTR_MS, loggedInUser));
 		
 		if (null != appUserRecords){
 			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_200, RETRIEVE_SUCCESS) );
-			appUserResponse = new ResponseEntity<Iterable<Foodorder>>(appUserRecords, headers, HttpStatus.OK);
+			orderResponse = new ResponseEntity<Iterable<Foodorder>>(appUserRecords, headers, HttpStatus.OK);
 		}else{
 			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_404, RETRIEVE_FAILED) );
-			appUserResponse = new ResponseEntity<Iterable<Foodorder>>(appUserRecords, headers, HttpStatus.NOT_FOUND);
+			orderResponse = new ResponseEntity<Iterable<Foodorder>>(appUserRecords, headers, HttpStatus.NOT_FOUND);
 		}
 		
-		return appUserResponse;
+		return orderResponse;
 	}
 
 	@Override
@@ -142,7 +140,7 @@ public class OrderController extends BaseAbstractController<Foodorder, Long>{
 			@PathParam("sortdir") String sortdir,
 			@PathParam("sortfield") String sortfield) {
 		//TODO Comment/Uncomment below line based on your requirement
-		ResponseEntity<Iterable<Foodorder>> appUserResponse;
+		ResponseEntity<Iterable<Foodorder>> orderResponse;
 		HttpHeaders headers = new HttpHeaders();
 		
 		// Default sort Direction and Field
@@ -160,48 +158,48 @@ public class OrderController extends BaseAbstractController<Foodorder, Long>{
 		
 		if (null != appUserRecords){
 			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_200, RETRIEVE_SUCCESS) );
-			appUserResponse = new ResponseEntity<Iterable<Foodorder>>(appUserRecords, headers, HttpStatus.OK);
+			orderResponse = new ResponseEntity<Iterable<Foodorder>>(appUserRecords, headers, HttpStatus.OK);
 		}else{
 			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_404, RETRIEVE_FAILED) );
-			appUserResponse = new ResponseEntity<Iterable<Foodorder>>(appUserRecords, headers, HttpStatus.NOT_FOUND);
+			orderResponse = new ResponseEntity<Iterable<Foodorder>>(appUserRecords, headers, HttpStatus.NOT_FOUND);
 		}
 		
-		return appUserResponse;
+		return orderResponse;
 	}
 
 	@Override
 	public ResponseEntity<Foodorder> update(@RequestBody Foodorder tobemerged) {
-		ResponseEntity<Foodorder> appUserResponse;
+		ResponseEntity<Foodorder> orderResponse;
 		HttpHeaders headers = new HttpHeaders();
 		
 		Foodorder appUser = orderBean.update(logUtil.getPreStr(LOGSTR_MS, loggedInUser), tobemerged);
 		
 		if (null != appUser){
 			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_201, UPDATE_SUCCESS) );
-			appUserResponse = new ResponseEntity<Foodorder>(appUser, headers, HttpStatus.CREATED);
+			orderResponse = new ResponseEntity<Foodorder>(appUser, headers, HttpStatus.CREATED);
 		} else{
 			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_500, UPDATE_FAILED) );
-			appUserResponse = new ResponseEntity<Foodorder>( tobemerged, headers, HttpStatus.INTERNAL_SERVER_ERROR);
+			orderResponse = new ResponseEntity<Foodorder>( tobemerged, headers, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
-		return appUserResponse;
+		return orderResponse;
 	}
 
 	@Override
 	public ResponseEntity<Foodorder> delete(@PathVariable(value="id") Long id) {
-		ResponseEntity<Foodorder> appUserResponse;
+		ResponseEntity<Foodorder> orderResponse;
 		HttpHeaders headers = new HttpHeaders();
 		
 		Boolean isdeleted = orderBean.delete(logUtil.getPreStr(LOGSTR_MS, loggedInUser), id);
 		
 		if (isdeleted){
 			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_200, DELETE_SUCCESS) );
-			appUserResponse = new ResponseEntity<Foodorder>(null, headers, HttpStatus.OK);
+			orderResponse = new ResponseEntity<Foodorder>(null, headers, HttpStatus.OK);
 		}else{
 			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_404, DELETE_FAILED) );
-			appUserResponse = new ResponseEntity<Foodorder>(null, headers, HttpStatus.NOT_FOUND);
+			orderResponse = new ResponseEntity<Foodorder>(null, headers, HttpStatus.NOT_FOUND);
 		}
 		
-		return appUserResponse;
+		return orderResponse;
 	}	
 }

@@ -35,11 +35,17 @@ public class OrderBean extends BaseAbstractBean<Foodorder, Long> {
 	}
 	
 	@Override
-	public Foodorder read(String logstr, Long id) {
+	public Foodorder read(String logstr, Long id) throws Exception {
 		logger.debug(logstr + "get order at id " + id);
 		Foodorder order = orderRepository.findOne(id);
+		if(null!=order)
+		{
 		logger.debug(logstr + "got order " + order.fetchLogDetails());
 		return order;
+		}else{
+			logger.debug(logstr + "Cant Retrieve Order " + order.fetchLogDetails());
+			throw new Exception();
+		}
 	}
 
 	@Override
