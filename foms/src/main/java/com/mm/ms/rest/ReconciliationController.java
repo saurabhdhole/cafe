@@ -70,17 +70,20 @@ public class ReconciliationController extends BaseAbstractController<Reconciliat
 	}
 
 	@Override
-	public ResponseEntity<Reconciliation> read(@PathVariable(value="id")Long id) {
+	public ResponseEntity<Reconciliation> read(@PathVariable(value="id")Long id) throws Exception {
 		//TODO Comment/Uncomment below line based on your requirement
-		ResponseEntity<Reconciliation> reconciliationResponse;
+		ResponseEntity<Reconciliation> reconciliationResponse=null;
 		HttpHeaders headers = new HttpHeaders();
-		
-		Reconciliation reconcile = reconciliationBean.read(logUtil.getPreStr(LOGSTR_MS, loggedInUser), id);
-		
+		Reconciliation reconcile=null;
+		try
+		{
+		reconcile = reconciliationBean.read(logUtil.getPreStr(LOGSTR_MS, loggedInUser), id);
 		if (null != reconcile){
 			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_200, RETRIEVE_SUCCESS) );
 			reconciliationResponse = new ResponseEntity<Reconciliation>(reconcile, headers, HttpStatus.OK);
-		}else{
+		}
+		}catch(Exception e){
+			
 			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_404, RETRIEVE_FAILED) );
 			reconciliationResponse = new ResponseEntity<Reconciliation>(reconcile, headers, HttpStatus.NOT_FOUND);
 		}

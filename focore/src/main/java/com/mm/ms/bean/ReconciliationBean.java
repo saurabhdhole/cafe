@@ -39,13 +39,18 @@ public class ReconciliationBean extends BaseAbstractBean<Reconciliation, Long> {
 	}
 
 	@Override
-	public Reconciliation read(String logstr, Long id) {
+	public Reconciliation read(String logstr, Long id) throws Exception {
 		// TODO Auto-generated method stub
 		logger.debug(logstr + "get reconciliation entry at id " + id);
 		Reconciliation reconciliation = reconciliationRepository.findOne(id);
-		logger.debug(logstr + "got reconciliation entry "
-				+ reconciliation.fetchLogDetails());
+		if(null!=reconciliation)
+		{
+		logger.debug(logstr + "got reconciliation entry "+ reconciliation.fetchLogDetails());
 		return reconciliation;
+		}else{
+			logger.debug(logstr + "got reconciliation entry "+ reconciliation.fetchLogDetails());
+			throw new Exception();
+		}
 	}
 
 	@Override
