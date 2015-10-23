@@ -15,7 +15,7 @@ public abstract class BaseAbstractController<T, ID> {
 	public abstract ResponseEntity<T> create(@RequestBody T inputentity);
 	
 	@RequestMapping(value="{id}", method = RequestMethod.GET)
-	public abstract ResponseEntity<T> read(@PathVariable(value="id")ID id);
+	public abstract ResponseEntity<T> read(@PathVariable(value="id")ID id) throws Exception;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public abstract ResponseEntity<Iterable<T>> readAll();

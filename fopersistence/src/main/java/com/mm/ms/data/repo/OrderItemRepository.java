@@ -9,5 +9,6 @@ import com.mm.ms.entity.OrderItem;
 public interface OrderItemRepository extends PagingAndSortingRepository<OrderItem, Long> {
 
 	public List<OrderItem> findByOid(Long oid);
+	public List<OrderItem> findByUidAndOid(Long uid,Long oid);
 	
 }

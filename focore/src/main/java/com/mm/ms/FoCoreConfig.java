@@ -7,6 +7,7 @@ import com.mm.ms.bean.FoodItemBean;
 import com.mm.ms.bean.OrderBean;
 import com.mm.ms.bean.OrderItemBean;
 import com.mm.ms.bean.ReconciliationBean;
+import com.mm.ms.bean.OrderAndUserBean;
 import com.mm.ms.bean.UserBean;
 import com.mm.ms.util.LogUtil;
 import com.mm.ms.util.RespMsgUtil;
@@ -55,4 +56,15 @@ public class FoCoreConfig {
 		FoodItemBean foodItemBean = new FoodItemBean();
 		return foodItemBean;
 	}
+	
+@Bean
+public OrderAndUserBean todayOrderAndUserBean()
+{
+	OrderAndUserBean todayOrderAndUserBean=new OrderAndUserBean();
+	
+	return todayOrderAndUserBean;
+}
+	
+	
+	
 }

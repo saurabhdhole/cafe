@@ -32,4 +32,5 @@ public class ResponseMsg {
 	public static final String HTTP_409 = "409";
 	//Internal Server Error
 	public static final String HTTP_500 = "500";
+	public static final String HTTP_503 = "503";
 }

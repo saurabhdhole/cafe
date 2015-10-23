@@ -53,10 +53,9 @@ public class FoodItemController extends BaseAbstractController<FoodItem, Long>{
 	RespMsgUtil respMsgUtil;
 	
 	
-	
-	
+
 	@Override
-	public ResponseEntity<FoodItem> create(@RequestBody FoodItem inputentity) {
+	public ResponseEntity<FoodItem> create(@RequestBody FoodItem inputentity){
 		ResponseEntity<FoodItem> fooditemResponse;
 		HttpHeaders headers = new HttpHeaders();
 		

@@ -1,5 +1,7 @@
 package com.mm.ms.rest;
 
+import java.util.Date;
+
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mm.ms.BaseAbstractController;
 import com.mm.ms.bean.OrderBean;
+import com.mm.ms.dto.OrderDto;
 import com.mm.ms.entity.Foodorder;
 import com.mm.ms.util.Const;
 import com.mm.ms.util.LogUtil;
@@ -58,6 +61,10 @@ public class OrderController extends BaseAbstractController<Foodorder, Long>{
 		ResponseEntity<Foodorder> userResponse;
 		HttpHeaders headers = new HttpHeaders();
 		
+		String st="preparing";
+		Date ds=new Date();
+		inputentity.setOrderdate(ds);
+		inputentity.setStatus(st);
 		Foodorder order = orderBean.create(logUtil.getPreStr(LOGSTR_MS, loggedInUser), inputentity);
 		
 		if (null != order){
@@ -201,5 +208,33 @@ public class OrderController extends BaseAbstractController<Foodorder, Long>{
 		}
 		
 		return orderResponse;
-	}	
+	}
+	
+	//calling bean 
+	
+	@RequestMapping(value = "checkOrderName", method = RequestMethod.GET)
+	public ResponseEntity<OrderDto> checkLastOrder() {
+		ResponseEntity<OrderDto> orderResponse;
+		HttpHeaders headers = new HttpHeaders();
+		Date date=new Date();
+		OrderDto order = orderBean.checkLastOrder(logUtil.getPreStr(LOGSTR_MS, loggedInUser), date);
+		
+		if (order!=null){
+			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_200, DELETE_SUCCESS) );
+			orderResponse = new ResponseEntity<OrderDto>(order, headers, HttpStatus.OK);
+		}else{
+			headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(MS_CODE, ResponseMsg.HTTP_404, DELETE_FAILED) );
+			orderResponse = new ResponseEntity<OrderDto>(null, headers, HttpStatus.NOT_FOUND);
+		}
+		
+		return orderResponse;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 }

@@ -3,6 +3,7 @@ package com.mm.ms.dto;
 public class OrderItemDto {
 	
 	private Long orderid;
+	int id;
 	private String username;
 	private String itemname;
 	private Integer qty;
