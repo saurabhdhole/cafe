@@ -1,0 +1,57 @@
+
+
+
+ <script type="text/javascript">
+var today = new Date();
+
+//var currentmonth today.getMonth();
+//var currentDate=today.getDate();
+//var currentyear=today.getFullYear();
+
+$('#datetimepicker1').datetimepicker({
+	//pickTime:false,
+	//format:"DD-MM-YYYY",
+	maxDate:new Date()
+
+});
+ </script>
+
+<div ng-init="showNavbar()"> 
+
+<div class="input-group date col-md-2" id="datetimepicker1" style="position: relative;margin-left:38%;;margin-top:5%; font-size:20px; padding: 3px;">
+      <input type="text" class="form-control" ng-model="reportParam.startdate" ng-blur="updateDate()" id="startdate" name="startdate" ng-required="showStartDate"/>
+      <span class="input-group-addon"><span class="glyphicon-calendar glyphicon"></span></span>      
+</div>     
+      <div class="btn btn-default row homeBtn" ng-click="getOrderHistory()" style="position:relative;width:9%;height:15%;margin-left:45%;margin-top:2%;">View Order</div>          
+             
+</div>
+<div class="pageChangeBtn pull-left" ng-click="gotoBack()" style="position:relative;margin-top:-3%; margin-left:38%;"><span class="glyphicon glyphicon-triangle-left"></span>&nbsp; Back </div>
+<div class="col-md-6 bodyDiv" style="position:relative;margin-top:4%;margin-left:25%" ng-show="hshow" ng-init="hshow=false" ng-model="date">
+ 	<div class="header" style="height:10%;width:100%;position:relative;font-size: 28px;color:gray; margin-left:40%">
+	  <span class="glyphicon glyphicon-chevron-up" ng-mouseenter="mouseUp()" ng-mouseleave="clearintervals()"></span> 
+  <span class="glyphicon glyphicon-chevron-down" ng-mouseenter="mouseDown()" ng-mouseleave="clearintervals()"></span>
+  
+  
+    </div>
+    <div class="srlDiv" id="hisList">
+ 	<div class="table-responsive" >				
+  	<table class="table">
+    <tr>
+    <th>UserName</th>
+    <th>ItemName</th>
+    <th>Quantity</th>
+    <th>Status</th>
+  	</tr>
+  	<tr ng-repeat="orderHitems in orderHitem">
+  	<td><label class="l_label" ng-model="re.username">{{orderHitems.username}}</label></td>
+  	<td><label class="l_label" ng-model="re.amtpaid">{{orderHitems.itemname}}</label></td>
+  	<td><label class="l_label" ng-model="re.reco">{{orderHitems.qty}}</label></td>
+  	<td><label class="l_label" ng-model="re.status">{{orderHitems.price}}</label></td>
+  	</tr>
+  	</table>
+	</div>
+	</div>
+	 
+</div>
+</form>
+

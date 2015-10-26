@@ -1,0 +1,74 @@
+<div class="backmask" id="bgmasker">
+<div class="container-fluid">
+
+	<nav class="navbar navbar-default navbar-fixed-top" ng-show="showNav">
+			<div class="container custom-container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">
+						<span class="navBtns">
+							<span class="glyphicon glyphicon-cutlery"></span>
+							<span class="heading"> &nbsp; Cafe de' Magica </span>
+						</span>
+				</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+			
+			
+			<ul class="nav navbar-nav navbar-right">
+				<li class="navbar-collapse collapse">
+				&nbsp;
+				<span class="navBtns" ng-click="goToHome()"><span class="glyphicon glyphicon-home"></span>
+				 Home </span>
+				</li>
+			</ul>	
+			<ul class="nav navbar-nav navbar-right">
+				<li class="navbar-collapse collapse">
+				&nbsp;
+				<span class="navBtns" ng-click="viewhistory()" ><span class="glyphicon glyphicon-list"></span>
+				 View History </span>&nbsp;
+				</li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+				<li class="navbar-collapse collapse">
+				&nbsp;
+				<span class="navBtns" ng-click="showReconcilations()"><span class="glyphicon glyphicon-list "></span>
+				 Reconciliation cost </span>
+				</li>
+				</ul>
+			<ul class="nav navbar-nav navbar-right">
+	        <li class="navbar-collapse collapse" ng-controller="userCtrl">
+	        &nbsp;
+				<span class="navBtns" ng-click="showAddUserModal()" ng-show="enableOnOrder()">
+				<span class="glyphicon glyphicon-plus-sign"></span>
+				 Add User
+				 </span>
+				</li>
+					
+			 <li class="navbar-collapse collapse" ng-controller="orderCtrl">
+	         &nbsp;
+				<span class="navBtns" ng-click="addOrderItemdetail()" ng-show="enableFoodItem()">
+				<span class="glyphicon glyphicon-plus-sign"></span>
+				 Add FoodItem
+				 </span>
+				</li>		
+					
+					
+						
+			</ul>
+			</div>
+		</div>
+	</nav> 
+
+<div ui-view></div>
+
+</div>
+</div>
+
+

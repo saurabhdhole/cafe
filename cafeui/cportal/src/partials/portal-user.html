@@ -1,0 +1,221 @@
+
+
+<form name="myform">
+
+<div class="container custom-container padTop" ng-init="showNavbar()">
+<div class="subHeading">Ordering for?</div>
+
+	
+	<div class="row">
+	
+	<div class="col-md-6 bodyDiv" ng-init="getUsersList()">
+	<div class="header" style="height:10%;width:100%;position:relative;font-size: 28px;color:gray; margin-left:40%">
+	  <span class="glyphicon glyphicon-chevron-up" ng-mouseenter="mouseUp()" ng-mouseleave="clearintervals()"></span> 
+  <span class="glyphicon glyphicon-chevron-down" ng-mouseenter="mouseDown()" ng-mouseleave="clearintervals()"></span>
+  
+  
+    </div>
+    <div class="srlDiv" id="hest">
+		<div class="userRecord" ng-repeat="user in users" ng-click="fetchUserId(user.id)" id="co{{user.id}}">
+			<span class="glyphicon glyphicon-user"></span> 
+			&nbsp;	&nbsp;<label class="l_label" ng-model="user.name" >{{user.name}}</label>
+		</div>
+	</div>
+	    
+	</div>
+	
+	<div class="col-md-5 bodyDiv" >
+	
+		<div class="orders" ng-show="orderExists">
+		<h1>Create Order</h1>
+		<br>
+		<span class="glyphicon glyphicon-time orderIco"></span>
+		<br>		<br>
+		
+					  No Existing order found
+		<br>
+		<br>	
+		<div class="col-sm-6" style="margin-left:23%;">
+  
+  		<select name="orname" ng-model="oname" class="form-control text-control" ng-pattern="/^[a-zA-Z_\s&.-]*$/" required>
+    	<option value="Breakfast">Breakfast</option>
+    	<option value="Lunch">Lunch</option>
+    	<option value="Dinner">Dinner</option>
+
+		</select>
+   		<p class="help-block errorText" ng-if="myform.orname.$error.pattern">Please enter a valid Order Name</p>
+  		<br/>
+		<button type="button" class="btn btn-default btn-lg" ng-disabled="myform.orname.$invalid" ng-click="addOrder()">Create Order</button>
+		</div>
+		</div>
+		
+		
+		<div class="orders" ng-show="prevExist">
+		<h1>OOOPS !!! </h1>
+		<br>
+		<span class="glyphicon glyphicon-time orderIco"></span>
+		<br>		<br>
+		
+					  <h4> You are not able to proceed until you clear the previous days reconcile</h4>
+		<br>
+		<br>	
+		</div>
+	
+		<div class="orders" ng-show="doneView">
+		<h1>Sorry !!! </h1>
+		<br>
+		<span class="glyphicon glyphicon-time orderIco"></span>
+		<br>		<br>
+		
+					  <h4> All order have been reconciled for today. You can not proceed your order.</h4>
+		<br>
+		<br>	
+		</div>
+	
+	
+		
+		<div class="orders" ng-show="orderCurrExists">
+		<h1> Today's Order</h1>
+		<br>
+		<!--  <span class="glyphicon glyphicon-time orderIco"></span>-->
+		
+		
+		<div align="justify" style="position:relative;%;height:50%;margin-left:37%;">	
+			
+		<label class="l_label"></label><br/>
+		<label class="l_label">Date :{{day}}/{{month}}/{{year}}</label><br/>
+		<label class="l_label">Time : {{hr}}:{{minit}}</label>
+		</div>
+		<br>
+		<div class="col-sm-6" style="margin-left:23%;" ng-show="cOrderB">
+  		<span ng-show="radioB"><input type="radio" name="Forder" value="Breakfast" ng-click="selectRadio()" > Breakfast
+  		<br></span>
+  		<br>
+  		<select name="orname" ng-model="oname"  class="form-control text-control" ng-pattern="/^[a-zA-Z_\s&.-]*$/" required>
+ 		<option value="Lunch">Lunch</option>
+    	<option value="Dinner">Dinner</option>
+		</select>
+		<p class="help-block errorText" ng-if="myform.orname.$error.pattern">Please enter a valid Order Name</p>
+		<br/>
+		<button type="button" class="btn btn-default btn-lg" ng-disabled="myform.orname.$invalid" ng-click="addOrder()">Create Order</button>
+		</div>
+		
+		
+		<div class="col-sm-6" style="margin-left:23%;" ng-show="cOrderL">
+		<span ng-show="radioL"><input type="radio" name="Forder" value="Lunch" ng-click="selectRadio()" > Lunch
+		<br></span><br>
+		<select name="orname" ng-model="oname" class="form-control text-control" ng-pattern="/^[a-zA-Z_\s&.-]*$/" required>
+    	<option value="Breakfast">Breakfast</option>
+    	<option value="Dinner">Dinner</option>
+		</select>
+   		<p class="help-block errorText" ng-if="myform.orname.$error.pattern">Please enter a valid Order Name</p>
+		<br/>
+		<button type="button" class="btn btn-default btn-lg" ng-disabled="myform.orname.$invalid" ng-click="addOrder()">Create Order</button>
+		</div>
+		
+		<div class="col-sm-6" style="margin-left:23%;" ng-show="cOrderD">
+		<span ng-show="radioD"><input type="radio" name="Forder" value="Dinner" ng-click="selectRadio()"> Dinner
+		<br></span><br>
+		<select name="orname" ng-model="oname" class="form-control text-control" ng-pattern="/^[a-zA-Z_\s&.-]*$/" required>
+    	<option value="Breakfast">Breakfast</option>
+    	<option value="Lunch">Lunch</option>
+		</select>
+   		<p class="help-block errorText" ng-if="myform.orname.$error.pattern">Please enter a valid Order Name</p>
+		<br/>
+		<button type="button" class="btn btn-default btn-lg" ng-disabled="myform.orname.$invalid" ng-click="addOrder()">Create Order</button>
+		</div>
+
+		<div class="col-sm-6" style="margin-left:23%;" ng-show="cOrderLB">
+		<div>
+		<span ng-show="radioL"><input type="radio" name="Forder" value="Lunch" ng-click="selectRadio()" > Lunch
+		<br></span>
+		<span ng-show="radioB"><input type="radio" name="Forder" value="Breakfast" ng-click="selectRadio()"> Breakfast
+		<br></span><br>
+		</div>
+		<select name="orname" ng-model="oname" class="form-control text-control" ng-pattern="/^[a-zA-Z_\s&.-]*$/" required>
+    	<option value="Dinner">Dinner</option>
+		</select>
+   		<p class="help-block errorText" ng-if="myform.orname.$error.pattern">Please enter a valid Order Name</p>
+		<br/>
+		<button type="button" class="btn btn-default btn-lg" ng-disabled="myform.orname.$invalid" ng-click="addOrder()">Create Order</button>
+		</div>
+		
+		<div class="col-sm-6" style="margin-left:23%;" ng-show="cOrderBD">
+		<span ng-show="radioB"><input type="radio" name="Forder" value="Breakfast" ng-click="selectRadio()" > Breakfast<br></span>
+		<span ng-show="radioD"><input type="radio" name="Forder" value="Dinner"  ng-click="selectRadio()"> Dinner</span>
+		<br><br>
+		<select name="orname" ng-model="oname" class="form-control text-control" ng-pattern="/^[a-zA-Z_\s&.-]*$/" required>
+    	<option value="Lunch">Lunch</option>
+		</select>
+   		<p class="help-block errorText" ng-if="myform.orname.$error.pattern">Please enter a valid Order Name</p>
+		<br/>
+		<button type="button" class="btn btn-default btn-lg" ng-disabled="myform.orname.$invalid" ng-click="addOrder()">Create Order</button>
+		</div>
+		
+		<div class="col-sm-6" style="margin-left:23%;" ng-show="cOrderLD">
+		<span ng-show="radioL"><input type="radio" name="Forder" value="Lunch"  ng-click="selectRadio()" > Lunch
+		<br></span>
+		<span ng-show="radioD"><input type="radio" name="Forder" value="Dinner"  ng-click="selectRadio()"> Dinner
+		<br></span><br>
+		<select name="orname" ng-model="oname" class="form-control text-control" ng-pattern="/^[a-zA-Z_\s&.-]*$/" required>
+    	<option value="Breakfast">Breakfast</option>
+		</select>
+   		<p class="help-block errorText" ng-if="myform.orname.$error.pattern">Please enter a valid Order Name</p>
+		<br/>
+		<button type="button" class="btn btn-default btn-lg" ng-disabled="myform.orname.$invalid" ng-click="addOrder()">Create Order</button>
+		</div>		
+		
+		
+		<div class="col-sm-6" style="margin-left:23%;" ng-show="cOrderLBD">
+		<span ng-show="radioB"><input type="radio" name="Forder" value="Breakfast" ng-click="selectRadio()" > Breakfast<br></span>
+		<span ng-show="radioL"><input type="radio" name="Forder" value="Lunch"  ng-click="selectRadio()"> Lunch<br></span>
+		<span ng-show="radioD"><input type="radio" name="Forder" value="Dinner" ng-click="selectRadio()"> Dinner</span>
+		<br><br>
+		</div>
+		<br>
+	
+		<br>
+		</div>
+	</div>
+	</div>
+	
+	<div class="row">
+	<br>
+	<div class="pageChangeBtn pull-left" ng-click="goToHome()"><span class="glyphicon glyphicon-triangle-left"></span>&nbsp; Back </div>&nbsp;&nbsp;&nbsp;
+
+	<div class="pageChangeBtn pull-right" ng-show="checkOrderAndUser()" ng-click="goToOrderItems()">Select Items &nbsp;<span class="glyphicon glyphicon-triangle-right"></span>
+	
+	
+	</div>
+	</div>
+	
+	
+</div>
+
+
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-sm">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add User</h4>
+      </div>
+      <div class="modal-body">
+        <input type="text" placeholder="Enter User Name" ng-model="uname" class="form-control" name="uName" ng-pattern="/^[a-zA-Z_\s&.-]*$/" required>
+      <p class="help-block errorText" ng-if="myform.uName.$error.pattern">Please enter a valid User Name</p>
+   
+      </div>
+      <div class="modal-footer">
+      <font class="errorMsg">{{msg}}</font>
+      	<input type="button" class="btn btn-success" value="Submit" ng-click="addUser()" data-dismiss="modal" ng-disabled="myform.uName.$invalid">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</form>

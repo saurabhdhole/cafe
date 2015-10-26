@@ -1,0 +1,25 @@
+
+{
+  "name": "cafeUi",
+  "description": "Cafe de Moremagic",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "angular": "x.x.x",
+    "jquery": "x.x.x",
+    "bootstrap": "x.x.x",
+    "angular-resource": "x.x.x",
+    "less": "x.x.x",
+    "angular-ui-router":"x.x.x",
+    "angular-bootstrap" : "x.x.x",
+    "angular-bootstrap-show-errors":"x.x.x",
+    "angular-sanitize":"x.x.x",
+    "sweetalert" : "x.x.x",
+    "select2": "x.x.x",
+    "lodash": "x.x.x",
+    "eonasdan-bootstrap-datetimepicker": "x.x.x"
+    
+  },
+  "resolutions": {
+    "angular": "x.x.x"
+  }}

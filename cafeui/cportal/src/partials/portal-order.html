@@ -1,0 +1,195 @@
+<form name="m_form">
+<div class="container custom-container padTop" ng-init="showNavbar()">
+
+
+<!-- Modal -->
+<div id="viewo" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">User And Order Detail</h4>
+      </div>
+     
+  	
+  	<table class="table">
+    <tr>
+    <th>UserName</th>
+    <th>ItemName</th>
+    <th>Quantity</th>
+     <th>Price</th>
+  	</tr>
+	<tr ng-repeat="odata in OAndUDetail">
+  	<td>&nbsp;<label class="l_label" ng-model="odata.username">{{odata.username}}</label></td>
+  	<td><label class="l_label" ng-model="odata.itemname">{{odata.itemname}}</label></td>
+  	<td><label class="l_label" ng-model="odata.qty">{{odata.qty}}</label></td>
+  	<td><label class="l_label" ng-model="odata.price">{{odata.price}}</label></td>
+  		
+  	</tr>
+  	</table>
+  	<div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div> 
+	</div>
+	
+	</div>
+          
+          
+      </div>
+     
+	<div class="subHeading">Ordering What?</div>
+	
+	<div class="row">
+	<div class="col-md-6 bodyDiv">
+	<p style="position:relative;margin-left:47%;font-size: 28px;color:gray;">
+	  <span class="glyphicon glyphicon-chevron-up" ng-mouseenter="mouseUp()" ng-mouseleave="clearintervals()"></span> 
+  <span class="glyphicon glyphicon-chevron-down" ng-mouseenter="mouseDown()" ng-mouseleave="clearintervals()"></span>
+ </p>
+	<div class="srlDiv" id="i">
+ 	<div class="table-responsive" >
+ 	
+  	<table class="table">
+  	<tr>
+
+  	</tr>
+    <tr>
+    <th class="col-md-7">Item</th>
+    <th>Price</th>
+  
+  	</tr>
+  	<tr ng-repeat="foods in orderitem" ng-click="fetchItemid(foods.id)">
+  	<td class="col-md-7"><label class="l_label" ng-model="foods.name">{{foods.name}}</label></td>
+  	<td><label class="l_label" ng-model="foods.price">{{foods.price}}</label></td>
+  	<td style="font-size: 16px;"><span class="glyphicon glyphicon-plus-sign" ng-click="addQty()"></span>    
+  	</td>
+  	</tr>
+  	</table>
+	</div> 
+	</div>
+	</div>
+
+	<div class="col-md-5 bodyDiv">
+	<h4>Items Ordered</h4>
+		<p style="position: relative;margin-left:45%; font-size:28px;">
+		  <span class="glyphicon glyphicon-chevron-up" ng-mouseenter="mouseUp1()" ng-mouseleave="clearintervals1()"></span> 
+  <span class="glyphicon glyphicon-chevron-down" ng-mouseenter="mouseDown1()" ng-mouseleave="clearintervals1()"></span>
+  </p>
+	
+	
+	<div  class="srlDiv1" id="o">
+	
+	<div class="table-responsive" >
+		<table class="table">	
+    <tr>
+    <th>Item</th>
+    <th>price</th>
+    <th>Quantity</th>
+  	</tr>
+  	<tr ng-repeat="selectdata in cdata" ng-click="fetchItemid(foods.id)">
+  	<td class="col-md-7"><label class="l_label" ng-model="selectdata.itemname">{{selectdata.itemname}}</label></td>
+  	<td><label class="l_label" ng-model="foods.price">{{selectdata.price}}</label></td>
+  	  	<td><label class="l_label" ng-model="foods.price">{{selectdata.qty}}</label></td>
+ </tr>
+ <tr>
+  <td>
+
+  	</td>
+  	</tr>
+  	</table>
+		
+		</div>
+	</div>
+	  	<h4 class="amountToPay">Total : <label class="l_label">{{tot}}</h4>
+	
+	<div class="amountPaying" >
+      <input type="text" name="amount" class="form-control" id="inputAmount" ng-init="validAmount=false" ng-model="amtpaid" ng-pattern="/[\u0030-\u0039]+/g"
+         placeholder=" Amount &#8377;" required>
+   
+    	 <p class="help-block errorText" ng-if="m_form.amount.$error.pattern">Please enter a valid amount </p>
+   		
+    </div>
+	
+	<br/>
+	<button type="button" class="btn btn-success pull-right" ng-click="checkOrder()">View Order Detail </button>
+	</div>
+	
+	</div>
+	<div class="row custom-container">
+
+	<br>
+	<div class="pageChangeBtn pull-left" ng-click="goToUsers()"><span class="glyphicon glyphicon-triangle-left"></span>&nbsp; Back </div>
+	<div class="pageChangeBtn pull-right" ng-click="calculateReconcile()" ng-disabled="m_form.amount.$invalid">Make Order &nbsp;<span class="glyphicon glyphicon-triangle-right"></span>
+	
+	 <font class="errorMsg">{{msg2}}</font>
+	</div>
+	</div>
+	</div>
+
+	<div id="buyitem" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-sm">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Enter Quantity</h4>
+      </div>
+      <div class="modal-body">
+        <input type="text" placeholder="Enter quantity" class="form-control text-control" ng-model="qty"  name="txtqty" ng-pattern="/[\u0030-\u0039]+/g"  required>
+   	 
+  
+    	 <p class="help-block errorText" ng-if="m_form.txtqty.$error.pattern">Please enter a valid Quantity Name</p>
+   		
+      
+      </div>
+      <div class="modal-footer">
+       <font class="errorMsg">{{msg1}}</font>
+       <button type="button" class="btn btn-default" ng-click="adduopqty()" data-dismiss="modal" ng-disabled="m_form.txtqty.$invalid">Submit</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+ 
+</div>
+
+
+<div id="additem" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-sm">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add Food Item</h4>
+      </div>
+      <div class="modal-body">
+       
+       <input type="text" placeholder="enter Item Name" name="txtitemname" ng-model="itemname" class="form-control text-control" ng-pattern="/^[a-zA-Z_\s&.-]*$/" required>
+   		  <p class="help-block errorText" ng-if="m_form.txtitemname.$error.pattern">Please enter a valid Item Name</p>
+      <br/> 
+        <input type="text" placeholder="enter Item Price" class="form-control text-control" ng-model="itemprice"  name="txtprice" ng-pattern="/[\u0030-\u0039]+/g"  required>
+    	 <p class="help-block errorText" ng-if="m_form.txtprice.$error.pattern">Please enter a valid Item Price</p>
+   		
+      
+      </div>
+      <div class="modal-footer">
+       <font class="errorMsg">{{msg1}}</font>
+       <button type="button" class="btn btn-default" ng-click="addOrderItem()" data-dismiss="modal" ng-disabled="m_form.txtprice.$invalid ||  m_form.itemname.$invalid">Submit</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+ 
+</div>
+
+ </form>
+
+
+
+
+
+
+

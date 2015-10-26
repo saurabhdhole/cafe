@@ -1,0 +1,54 @@
+
+<form>
+
+		
+
+<div class="col-sm-2" style="margin-left:35%;position:relative;margin-top:5%;">
+  
+  		<select name="recOrders" ng-model="recOrder" class="form-control text-control" ng-pattern="/^[a-zA-Z_\s&.-]*$/" required>
+    	<option value="Breakfast">Breakfast</option>
+    	<option value="Lunch">Lunch</option>
+    	<option value="Dinner">Dinner</option>
+		</select>
+   		
+</div>
+<div class="btn btn-default row homeBtn" ng-click="showList()" style="position:relative;width:9%;height:15%;margin-left:-1%;margin-top:5%;"> View </div>
+
+<div class="col-md-6 bodyDiv" style="position:relative;margin-top:3%;margin-left:25%" >
+<div class="header" style="height:10%;width:100%;position:relative;font-size: 28px;color:gray; margin-left:45%">
+	  <span class="glyphicon glyphicon-chevron-up" ng-mouseenter="mouseUp()" ng-mouseleave="clearintervals()"></span> 
+  <span class="glyphicon glyphicon-chevron-down" ng-mouseenter="mouseDown()" ng-mouseleave="clearintervals()"></span>
+</div>
+	<div class="srlDiv" id="recList">
+ 	<div class="table-responsive" >				
+  	<table class="table">
+    <tr>
+    <th>UserName</th>
+    <th>AmountPaid</th>
+    <th>Reconciliation Cost</th>
+     <th>Status</th>
+     <th>Reconcile</th>
+  	</tr>
+  	<tr ng-repeat="re in recol">
+  	<td><label class="l_label" ng-model="re.username">{{re.username}}</label></td>
+  	<td><label class="l_label" ng-model="re.amtpaid">{{re.amtpaid}}</label></td>
+  	<td><label class="l_label" ng-model="re.reco">{{re.cost-re.amtpaid}}</label></td>
+  	<td><label class="l_label" ng-model="re.status">{{re.status}}</label></td>
+  	<td style="font-size: 16px;"><span ng-show="checkRec(re.status)" class="glyphicon glyphicon-check" ng-click="changeStatus(re.userid,re.orderid)"></span>    
+  	</td>
+  	
+  	</tr>
+  	</table>
+  	
+	</div> 
+	</div>
+	
+		</div>
+<div class="pageChangeBtn pull-left col-md--2" ng-click="gotoBack()" style="position:relative;margin-top:1%;margin-left:25%;"><span class="glyphicon glyphicon-triangle-left" ></span>&nbsp; Back </div>
+<!--  <div ng-show="dispRec" class="pageChangeBtn pull-left col-md--2" ng-click="showRecModal()" style="position:relative;margin-top:1%;margin-left:35.8%;"><span class="glyphicon glyphicon-check"></span>&nbsp; Reconcile </div>-->
+	
+		
+	
+</form>
+
+
