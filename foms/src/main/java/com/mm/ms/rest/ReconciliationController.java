@@ -262,28 +262,28 @@ public class ReconciliationController extends
 	
 	
 	// Controller to change the status
-		@RequestMapping(value = "status/{ordername}", method = RequestMethod.GET)
-		public ResponseEntity<List<ReconciliationDto>> changeStatusByOname(
-				@PathVariable(value = "ordername") String ordername) {
+		@RequestMapping(value = "status/{userid}/{orderid}", method = RequestMethod.GET)
+		public ResponseEntity<Reconciliation> changeStatusByOname(
+				@PathVariable(value = "userid") Long userid,@PathVariable(value="orderid")Long orderid) {
 			// TODO Comment/Uncomment below line based on your requirement
-			ResponseEntity<List<ReconciliationDto>> reconciliationDtoResponse;
+			ResponseEntity<Reconciliation> reconciliationResponse;
 			HttpHeaders headers = new HttpHeaders();
 
-			List<ReconciliationDto> reconciliationDtoRecords = null;
+			Reconciliation reconciliation = null;
 			try {
-				reconciliationDtoRecords = reconciliationBean.clearStatusByname(logUtil.getPreStr(LOGSTR_MS, loggedInUser),ordername);
+				reconciliation = reconciliationBean.clearStatusByname(logUtil.getPreStr(LOGSTR_MS, loggedInUser),userid,orderid);
 				headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(
 						MS_CODE, ResponseMsg.HTTP_200, RETRIEVE_SUCCESS));
-				reconciliationDtoResponse = new ResponseEntity<List<ReconciliationDto>>(
-						reconciliationDtoRecords, headers, HttpStatus.OK);
+				reconciliationResponse = new ResponseEntity<Reconciliation>(
+						reconciliation, headers, HttpStatus.OK);
 			} catch (Exception e) {
 				headers.add(ResponseMsg.HTTP_HEADER_NAME, respMsgUtil.getStr(
 						MS_CODE, ResponseMsg.HTTP_404, RETRIEVE_FAILED));
-				reconciliationDtoResponse = new ResponseEntity<List<ReconciliationDto>>(
-						reconciliationDtoRecords, headers, HttpStatus.NOT_FOUND);
+				reconciliationResponse = new ResponseEntity<Reconciliation>(
+						reconciliation, headers, HttpStatus.NOT_FOUND);
 			}
 
-			return reconciliationDtoResponse;
+			return reconciliationResponse;
 		}
 
 }

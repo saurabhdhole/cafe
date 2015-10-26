@@ -69,10 +69,16 @@ public class OrderAndUserBean {
 					List<Reconciliation> reconcileRecords1 = reconciliationRepository.findByOrderidAndStatus(Forders.get(0).getId(),"Closed");
 					List<Reconciliation> reconcileRecords2 = reconciliationRepository.findByOrderidAndStatus(Forders.get(1).getId(),"Closed");
 					List<Reconciliation> reconcileRecords3 = reconciliationRepository.findByOrderidAndStatus(Forders.get(2).getId(),"Closed");
+					List<Reconciliation> reconcileProcessedRecords1 = reconciliationRepository.findByOrderidAndStatus(Forders.get(0).getId(),"processed");
+					List<Reconciliation> reconcileProcessedRecords2 = reconciliationRepository.findByOrderidAndStatus(Forders.get(1).getId(),"processed");
+					List<Reconciliation> reconcileProcessedRecords3 = reconciliationRepository.findByOrderidAndStatus(Forders.get(2).getId(),"processed");
 					if(reconcileRecords1.size()>0 && reconcileRecords2.size()>0&& reconcileRecords3.size()>0)
 					{
-						orderdto.setOrdername("done");
-						flag=1;
+						if(reconcileProcessedRecords1.size()==0 && reconcileProcessedRecords2.size()==0 && reconcileProcessedRecords3.size()==0 )
+						{	
+							orderdto.setOrdername("done");
+							flag=1;
+						}
 					}
 				}
 			}

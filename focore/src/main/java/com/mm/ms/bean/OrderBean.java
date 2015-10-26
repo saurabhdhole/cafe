@@ -137,11 +137,12 @@ public class OrderBean extends BaseAbstractBean<Foodorder, Long> {
 			for(Foodorder food:foodorders)
 			{
 				List<Reconciliation> reconcileRecords = reconciliationRepository.findByOrderidAndStatus(food.getId(),"Closed");
+				List<Reconciliation> reconcileRecords1 = reconciliationRepository.findByOrderidAndStatus(food.getId(),"processed");
 				
 				if(food.getName().equals("Lunch"))
 				{
 					order.setOrderidL(food.getId());
-					if(reconcileRecords.size()>0)
+					if(reconcileRecords.size()>0 && reconcileRecords1.size()==0 )
 						order.setLunchrec("true");
 					else
 						order.setLunchrec("false");
@@ -149,7 +150,7 @@ public class OrderBean extends BaseAbstractBean<Foodorder, Long> {
 				if(food.getName().equals("Breakfast"))
 				{	
 					order.setOrderidB(food.getId());
-					if(reconcileRecords.size()>0)
+					if(reconcileRecords.size()>0 && reconcileRecords1.size()==0)
 						order.setBreakfastrec("true");
 					else
 						order.setBreakfastrec("false");
@@ -157,7 +158,7 @@ public class OrderBean extends BaseAbstractBean<Foodorder, Long> {
 				if(food.getName().equals("Dinner"))
 				{
 					order.setOrderidD(food.getId());
-					if(reconcileRecords.size()>0)
+					if(reconcileRecords.size()>0 && reconcileRecords1.size()==0)
 						order.setDinnerrec("true");
 					else
 						order.setDinnerrec("false");

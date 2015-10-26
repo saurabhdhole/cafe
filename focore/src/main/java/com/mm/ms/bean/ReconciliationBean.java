@@ -233,53 +233,23 @@ public class ReconciliationBean extends BaseAbstractBean<Reconciliation, Long> {
 		return reconciliation;
 	}
 	
-	public List<ReconciliationDto> clearStatusByname(String logstr,String ordername) throws Exception {
+	public Reconciliation clearStatusByname(String logstr,Long userid,Long orderid) throws Exception {
 		// TODO Auto-generated method stub
-		logger.debug(logstr + "get all order records");
-		List<Reconciliation> recRecords=reconciliationRepository.fetchLast();
-		if(recRecords.size()==0)
-			return null;
-		Foodorder foodorder=orderRepository.findOne(recRecords.get(0).getOrderid());
-		List<Foodorder> foodorderrecords=orderRepository.fetchByDate(foodorder.getOrderdate());
-		Long orderid = null;
-		//find the orderid by the ordername
-		for(Foodorder food:foodorderrecords)
-		{
-			if(ordername.equals(food.getName()))
-			{
-				orderid=food.getId();
-			}
-		}
-		if(orderid==null)
-			return null;
-		List<Reconciliation> reconciliationrecords = reconciliationRepository.findByOrderid(orderid);
-		List<ReconciliationDto> reconciliationDtoRecords = new ArrayList<ReconciliationDto>();
+		
+		Reconciliation rec=reconciliationRepository.findByUseridAndOrderid(userid, orderid);
+		logger.debug(logstr + "Fetch reconciliation entry"
+				+ rec.fetchLogDetails());
 		try
 		{
-			
-		for(Reconciliation reconciliation:reconciliationrecords)
-		{
-			ReconciliationDto reconciliationDto = new ReconciliationDto();
-			reconciliationDto.setOrderid(orderid);
-			reconciliationDto.setAmtpaid(reconciliation.getAmountpaid());
-			reconciliationDto.setCost(reconciliation.getOrdercost());
-			reconciliationDto.setUserid(reconciliation.getUserid());
-			User user=userRepository.findOne(reconciliation.getUserid());
-			reconciliationDto.setUsername(user.getName());
-			reconciliation.setStatus("Closed");
-			reconciliationDto.setStatus(reconciliation.getStatus());
-			//reconciliationDto.setUserid(reconciliation.getUserid());
-			update(logstr, reconciliation);
-			
-			reconciliationDtoRecords.add(reconciliationDto);
-		}
-		logger.debug(logstr + "Records retrived by orderid");
+			rec.setStatus("Closed");
+			rec.setAmountpaid(rec.getOrdercost());
+			rec=update(logstr,rec);
 		}
 		catch(Exception e)
 		{
 			throw new Exception();
 		}
-		return reconciliationDtoRecords;
+		return rec;
 	}
 	
 }
